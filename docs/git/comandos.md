@@ -31,6 +31,8 @@ git remote -v
 
 ### comandos comunes ()
 
+git config --global user.email "edwinmarcelofarfan2022@gmail.com"
+git config --global user.name "chapaco2023"
 git add .
 git commit -m "Nuevos Cambios"
-git push origen master
+git push origin master
