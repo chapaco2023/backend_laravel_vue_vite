@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -24,9 +26,9 @@ class AuthController extends Controller
         $token = $usuario->createToken('Token auth')->plainTextToken;
         //respondemos
         return response()->json([
-            'acces_token' => $token,
+            'access_token' => $token,
             'usuario' => $usuario
-        ]);
+        ], 201);
     }
 
     public function funRegister(Request $request)
@@ -41,9 +43,10 @@ class AuthController extends Controller
         $usuario = new User();
         $usuario->name = $request->name;
         $usuario->email = $request->email;
-        $usuario->password = $request->password;
+        $usuario->password = Hash::make($request->password);
         $usuario->save();
         //verificacion de cuenta
+        event(new Registered($usuario));
         //generar una respuesta
         return response()->json(['message' => 'Usuario Registrado'], 201);
     }
@@ -58,5 +61,29 @@ class AuthController extends Controller
     {
         $request->user()->tokens()->delete();
         return response()->json(['message' => 'Logout']);
+    }
+
+    public function verify($user_id, Request $request)
+    {
+        if (!$request->hasValidSignature()) {
+            return response()->json(['mensaje' => 'URL Expirado'], 401);
+        }
+
+        $user = User::findOrFail($user_id);
+
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+        //enviar un mensaje en JSOn que el correo fue verificado
+        return redirect()->to('/');
+    }
+
+    public function resend(Request $request)
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return response()->json(['message' => 'El Correo ya esta verificado'], 400);
+        }
+        $request->user()->sendEmailVerificationNotification();
+        return response()->json(['message' => 'Se ha enviar un email de verifcacion']);
     }
 }
