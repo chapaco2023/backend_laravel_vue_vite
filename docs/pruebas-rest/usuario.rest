@@ -1,31 +1,32 @@
 
 GET http://127.0.0.1:8000/api/usuario
-Authorization: Bearer 4|GPexlcifa8ckSjavVK6cx5MEpP6drujZsgL3GTmi8a78e762
+Authorization: Bearer 8|RAkK8c5l7Q4T5mhTiyFP3GVho08VJOeuOXnfhnOQb87d9edb
 
 ###guardar usuario
 POST http://127.0.0.1:8000/api/usuario
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer 4|GPexlcifa8ckSjavVK6cx5MEpP6drujZsgL3GTmi8a78e762
-
+Authorization: Bearer 8|RAkK8c5l7Q4T5mhTiyFP3GVho08VJOeuOXnfhnOQb87d9edb
 {
-  "name": "jade",
-  "email": "jade@gmail.com",
+  "name": "edwinmarcelo2024",
+  "email": "edwinmarcelo2024@gmail.com",
   "password": "123456"
 }
 
 ### mostrar Usuario
-GET http://127.0.0.1:8000/api/usuario
+GET http://127.0.0.1:8000/api/usuario/7
+Authorization: Bearer 8|RAkK8c5l7Q4T5mhTiyFP3GVho08VJOeuOXnfhnOQb87d9edb
 
 ### Modificar Usuario
-PUT http://127.0.0.1:8000/api/usuario/3
+PUT http://127.0.0.1:8000/api/usuario/7
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer 8|RAkK8c5l7Q4T5mhTiyFP3GVho08VJOeuOXnfhnOQb87d9edb
 
 {
-  "name": "juan",
-  "email": "jua2@example.com",
-  "password": "1234567"
+  "name": "juanperez",
+  "email": "juanperez2024@gmail.com",
+  "password": "123456789"
 }
 
 ### Eliminar Usuario

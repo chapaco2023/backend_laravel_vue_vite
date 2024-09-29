@@ -4,8 +4,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "name":"juanperez",
-    "email":"juanperez@gmail.com",
+    "name":"edwinmarcelo",
+    "email":"edwinmarcelo@gmail.com",
     "password":"123456",
     "c_password":"123456"
 }
@@ -16,7 +16,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email":"juanperez@gmail.com",
+    "email":"edwinmarcelo@gmail.com",
     "password":"123456"
 }
 

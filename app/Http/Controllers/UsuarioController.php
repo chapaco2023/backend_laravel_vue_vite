@@ -2,31 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsuarioRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
     public function index()
     {
-        /* select * from users
-        el modelo User esta asociado a la tabla users*/
         $usuarios = User::get();
-        //DB::select("");
-        //table pivot
-        //$table_pivot = DB::table("role_user")->get();
-        // Query builder
-        //$table_pivot = DB::table("role_user")->where("user_id", "=", 2)->first()->count()->last();
-        //$table_pivot = DB::table("role_user")->join("users", "users.id", "role_user-user_id")->where("user_id", "=", 2)->count();
         return response()->json($usuarios, 200);
     }
 
-    public function store(Request $request)
+    public function store(UsuarioRequest $request)
     {
-        //Manejo de SQL
-        //DB::insert("insert into users(name,email)values(?,?),[$request->name,$request->email]");
-        //Manejo de Eloquent
         $usuario = new User();
         $usuario->name = $request->name;
         $usuario->email = $request->email;
@@ -46,6 +35,11 @@ class UsuarioController extends Controller
 
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,$id',
+            'password' => 'required'
+        ]);
         $usuario = User::find($id);
         $usuario->name = $request->name;
         $usuario->email = $request->email;
